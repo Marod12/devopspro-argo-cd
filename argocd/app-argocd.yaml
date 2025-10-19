@@ -9,8 +9,8 @@ spec:
     repoURL: https://github.com/Marod12/devopspro-argo-cd.git
     path: argocd
     targetRevision: HEAD
-    # directory:
-    #   recurse: true
+    directory:
+      recurse: true
   destination: #Live State
     namespace: argocd
     server: https://kubernetes.default.svc
