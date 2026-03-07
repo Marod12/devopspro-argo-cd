@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: webcolor-priv
+  namespace: argocd
+spec:
+  project: exemplo-project
+  source: #Target State
+    repoURL: git@github.com:Marod12/web-page-deploy-priv.git
+    path: k8s/webcolor
+    targetRevision: HEAD
+  destination: #Live State
+    server: https://kubernetes.default.svc
+    namespace: webcolor-priv
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+    automated:
+      selfHeal: true
+      prune: true

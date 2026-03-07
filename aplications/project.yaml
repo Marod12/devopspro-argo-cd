@@ -1,0 +1,38 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: exemplo-project
+  namespace: argocd
+spec:
+  description: Sync Windows
+  sourceRepos:
+    - "https://github.com/Marod12/*"
+  destinations:
+    - server: "https://kubernetes.default.svc"
+      namespace: "*"
+  clusterResourceWhitelist:
+    - kind: "Namespace"
+      group: ""
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"
+  syncWindows:
+    - kind: allow # deny
+      timeZone: "America/Sao_Paulo"
+      schedule: "0 9 * * *"
+      duration: 20h
+      manualSync: true
+      # applications:
+      # - "*"
+      # namespaces:
+      # - "webcolor"
+      clusters:
+        - https://kubernetes.default.svc
+  roles:
+    - name: pipeline-sync
+      description: Role para sincronização automática
+      policies:
+        - p, proj:exemplo-project:pipeline-sync, applications, get, *, allow
+        - p, proj:exemplo-project:pipeline-sync, applications, sync, exemplo-project/*, allow
+      groups:
+        - pipeline
