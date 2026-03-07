@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1  
+kind: AppProject  
+metadata:  
+  name: exemplo-project  
+  namespace: argocd  
+spec:  
+  description: Projeto de exemplo para gerenciar aplicações.  
+  sourceRepos:  
+    # Lista de repositórios permitidos para este projeto  
+    - "https://github.com/Marod12/*"  
+  destinations:  
+    # Lista de destinos permitidos (clusters e namespaces)  
+    - namespace: "webcolor"  
+      server: https://kubernetes.default.svc
+    - namespace: "webcolor"  
+      server: https://100.87.137.249:41121
+    - namespace: "webcolor"  
+      server: https://100.87.137.249:45379
