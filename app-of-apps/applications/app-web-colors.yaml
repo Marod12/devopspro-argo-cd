@@ -8,7 +8,8 @@ spec:
   source:
     repoURL: https://github.com/Marod12/devopspro-argo-cd.git
     targetRevision: HEAD
-    path: app-of-apps/applications/webcolors  # webcolors
+    # path: app-of-apps/applications/webcolors  # webcolors
+    path: app-of-apps/applications/set-webcolors  # webcolors
     directory:
       recurse: true
   destination:
