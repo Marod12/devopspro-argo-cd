@@ -5,28 +5,19 @@ metadata:
   namespace: argocd
 spec:
   generators:
-    - list:
-        elements:
-          - cluster: cluster01
-            url: https://100.87.137.249:45067
-            region: us
-            namespace: web-color
-          - cluster: cluster02
-            url: https://100.87.137.249:43333
-            region: br
-            namespace: web-color
-      
+    - clusters: {}
+
   template:
     metadata:
-      name: 'web-color-{{region}}-{{cluster}}'
+      name: 'web-color-{{name}}'
     spec:
       source:
         repoURL: https://github.com/Marod12/web-page-deploy
         path: k8s/webcolor
         targetRevision: HEAD
       destination:
-        namespace: '{{namespace}}'
-        server: '{{url}}'
+        namespace: 'web-color'
+        server: '{{server}}'
       project: default
       syncPolicy:
         automated:
