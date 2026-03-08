@@ -5,18 +5,24 @@ metadata:
   namespace: argocd
 spec:
   generators:
-    - clusters:
-        selector:
-          matchLabels:
-            deploy: 'true'
+  - matrix:
+      generators:
+        - list:
+            elements:
+              - environment: dev
+              - environment: prod
+        - clusters:
+            selector:
+              matchLabels:
+                deploy: 'true'
 
   template:
     metadata:
-      name: 'web-color-{{name}}'
+      name: 'web-color-{{name}}-{{environment}}'
     spec:
       source:
         repoURL: https://github.com/Marod12/web-page-deploy
-        path: k8s/webcolor
+        path: k8s/webcolor/{{environment}}
         targetRevision: HEAD
       destination:
         namespace: 'web-color'
