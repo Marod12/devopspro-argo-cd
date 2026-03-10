@@ -5,16 +5,16 @@ metadata:
   namespace: argocd
 spec:
   generators:
-  - matrix:
-      generators:
-        - list:
-            elements:
-              - environment: dev
-              - environment: prod
-        - clusters:
-            selector:
-              matchLabels:
-                deploy: 'true'
+    - matrix:
+        generators:
+          - list:
+              elements:
+                - environment: dev
+                - environment: prod
+          - clusters:
+              selector:
+                matchLabels:
+                  deploy: 'true'
 
   template:
     metadata:
