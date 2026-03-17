@@ -13,8 +13,8 @@ spec:
         prometheus:
           address: https://prometheus-server.monitoramento.svc.cluster.local
           query: | 
-            scalar(
-              sum(rate(flask_http_request_total{app="webcolor", status=~"2.."}[2m]))
-              /
-              sum(rate(flask_http_request_total{app="webcolor"}[2m]))
+            scalar( 
+              sum(rate(nginx_http_requests_total{host="webcolor", status=~"2.."}[2m])) 
+              / 
+              sum(rate(nginx_http_requests_total{host="webcolor"}[2m])) 
             )
