@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: webcolor-active
+spec:
+  selector:
+    app: webcolor
+  ports:
+  - port: 80
+    targetPort: 80
+    nodePort: 30000
+  type: NodePort #LoadBalancer
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: webcolor-preview
+spec:
+  selector:
+    app: webcolor
+  ports:
+  - port: 80
+    targetPort: 80
+    nodePort: 30001
+  type: NodePort #LoadBalancer
+
+---
+
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: webcolor
+spec:
+  replicas: 4
+  selector: 
+    matchLabels:
+      app: webcolor
+  template:
+    metadata:
+      labels:
+        app: webcolor
+    spec:
+      containers:
+      - name: webcolor
+        image: marod12/web-color:blue3
+        ports:
+          - containerPort: 80
+  minReadySeconds: 30  # default 0
+  strategy:
+    blueGreen:
+      activeService: webcolor-active
+      previewService: webcolor-preview
+      autoPromotionEnabled: false  # se `true` tiver tudo OK ele faz a troca
+      autoPromotionSeconds: 30  # use se colocar `true` no autoPromotionEnabled, default 0
+      scaleDownDelaySeconds: 60  # quanto tempo até deletar a versão antiga
