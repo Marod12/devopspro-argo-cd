@@ -26,6 +26,10 @@ spec:
     metadata:
       labels:
         app: webcolor
+      annotations:
+        prometheus.io/scrape: 'true'
+        prometheus.io/path: '/metrics'
+        prometheus.io/port: '80'
     spec:
       containers:
       - name: webcolor
@@ -39,7 +43,11 @@ spec:
         - setWeight: 25
         - pause: {}
         - setWeight: 50
-        - pause: { duration: 30 }
+        - analysis:
+            templates:
+            - templateName: webcolor-success
         - setWeight: 75
-        - pause: { duration: 10s }
+        - analysis:
+            templates:
+            - templateName: webcolor-success
         - setWeight: 100
